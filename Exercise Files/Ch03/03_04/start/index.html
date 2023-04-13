@@ -1,0 +1,80 @@
+<!-- // Key errors happen as a warning because if things don't have keys they may
+re-render out of sync, especially when something is added to the front or the
+middle of the list. -->
+
+<!-- keys keep your data stable, you would not have to do this if your data was in the form of an object -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>React ⚛️</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function Header(props) {
+        return (
+          <header>
+            <h1>{props.name}'s Kitchen</h1>
+          </header>
+        );
+      }
+      function Main(props) {
+        return (
+          <section>
+            <ul>
+              {props.dishes.map((dish) => (
+                <li key={dish.id}>{dish.title}</li>
+                //{props.dishes.map((dish, i) => (
+                // <li key={i}>{dish}</li> Doing it this way is problematic bc there still can be problems with rendering
+              ))}
+            </ul>
+          </section>
+        );
+      }
+
+      function Footer(props) {
+        return (
+          <footer>
+            <p>Copyright {props.year}</p>
+          </footer>
+        );
+      }
+
+      const dishes = [
+        "Black Bean Soup",
+        "Macaroni and Cheese",
+        "Salmon and Potatoes",
+        "Pizza",
+      ];
+
+      const dishObjects = dishes.map((dish, i) => ({
+        id: i,
+        title: dish,
+      }));
+
+      function App() {
+        return (
+          <div>
+            <Header name="Cindy" />
+            <Main adjective="amazing" dishes={dishObjects} />
+            <Footer year={new Date().getFullYear()} />
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
